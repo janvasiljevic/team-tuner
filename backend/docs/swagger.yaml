@@ -1,0 +1,916 @@
+basePath: /api
+definitions:
+  dto.SortOrder:
+    enum:
+    - ASC
+    - DESC
+    type: string
+    x-enum-varnames:
+    - SortOrdeerASC
+    - SortOrderDESC
+  in.CreateCourseBody:
+    properties:
+      code:
+        maxLength: 10
+        minLength: 1
+        type: string
+      colour:
+        type: string
+      name:
+        maxLength: 255
+        minLength: 1
+        type: string
+    required:
+    - code
+    - colour
+    - name
+    type: object
+  in.GithubLoginIn:
+    properties:
+      navigateTo:
+        type: string
+    required:
+    - navigateTo
+    type: object
+  in.PostFormGroupsIn:
+    properties:
+      courseId:
+        description: To which course the groups belong
+        type: string
+      groupSizes:
+        description: |-
+          Array length must be at least 4
+          Each element must be greater than 0 and less than 10
+        items:
+          type: integer
+        minItems: 4
+        type: array
+      iterations:
+        description: General settings for SA
+        type: integer
+      temperature:
+        type: number
+      weightConscientiousness:
+        type: number
+      weightExtraversion:
+        type: number
+      weightNeuroticism:
+        type: number
+      weightSatisfaction:
+        description: Weights for SA
+        type: number
+    required:
+    - courseId
+    - groupSizes
+    - iterations
+    - temperature
+    - weightConscientiousness
+    - weightExtraversion
+    - weightNeuroticism
+    - weightSatisfaction
+    type: object
+  in.PostQuestionAnswerIn:
+    properties:
+      answerID:
+        type: string
+      value:
+        type: integer
+    required:
+    - answerID
+    - value
+    type: object
+  in.QuestionType:
+    enum:
+    - extroversion
+    - agreeableness
+    - conscientiousness
+    - neuroticism
+    - openness
+    type: string
+    x-enum-varnames:
+    - QuestionTypesExtroversion
+    - QuestionTypesAgreeableness
+    - QuestionTypesConscientiousness
+    - QuestionTypesNeuroticism
+    - QuestionTypesOpenness
+  in.StudentSortField:
+    enum:
+    - openness
+    - conscientious
+    - extraversion
+    - agreeableness
+    - neuroticism
+    type: string
+    x-enum-varnames:
+    - StudentSortFieldOpenness
+    - StudentSortFieldConscientious
+    - StudentSortFieldExtraversion
+    - StudentSortFieldAgreeableness
+    - StudentSortFieldNeuroticism
+  out.BfiReportOut:
+    properties:
+      agreeableness:
+        type: number
+      conscientiousness:
+        type: number
+      extraversion:
+        type: number
+      neuroticism:
+        type: number
+      openness:
+        type: number
+    required:
+    - agreeableness
+    - conscientiousness
+    - extraversion
+    - neuroticism
+    - openness
+    type: object
+  out.BigFiveBoxPlot:
+    properties:
+      agreeableness:
+        $ref: '#/definitions/out.BoxPlotItem'
+      conscientious:
+        $ref: '#/definitions/out.BoxPlotItem'
+      extraversion:
+        $ref: '#/definitions/out.BoxPlotItem'
+      neuroticism:
+        $ref: '#/definitions/out.BoxPlotItem'
+      openness:
+        $ref: '#/definitions/out.BoxPlotItem'
+    required:
+    - agreeableness
+    - conscientious
+    - extraversion
+    - neuroticism
+    - openness
+    type: object
+  out.BoxPlotItem:
+    properties:
+      dataPoints:
+        items:
+          type: number
+        type: array
+      max:
+        type: number
+      mean:
+        type: number
+      min:
+        type: number
+      q1:
+        type: number
+      q3:
+        type: number
+    required:
+    - dataPoints
+    - max
+    - mean
+    - min
+    - q1
+    - q3
+    type: object
+  out.CourseOut:
+    properties:
+      code:
+        type: string
+      colour:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - code
+    - colour
+    - createdAt
+    - id
+    - name
+    - updatedAt
+    type: object
+  out.CreatedCourseOut:
+    properties:
+      code:
+        type: string
+      colour:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - code
+    - colour
+    - createdAt
+    - id
+    - name
+    - updatedAt
+    type: object
+  out.DailyActivity:
+    properties:
+      activity:
+        items:
+          $ref: '#/definitions/out.DailyStat'
+        type: array
+      endTime:
+        type: string
+      startTime:
+        type: string
+    required:
+    - activity
+    - endTime
+    - startTime
+    type: object
+  out.DailyStat:
+    properties:
+      count:
+        type: integer
+      day:
+        type: string
+    required:
+    - count
+    - day
+    type: object
+  out.DetailedGroupOut:
+    properties:
+      bigFiveBoxPlot:
+        $ref: '#/definitions/out.BigFiveBoxPlot'
+      courseCode:
+        type: string
+      courseColour:
+        type: string
+      courseName:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      students:
+        items:
+          $ref: '#/definitions/out.StudentOut'
+        type: array
+      updateAt:
+        type: string
+    required:
+    - bigFiveBoxPlot
+    - courseCode
+    - courseColour
+    - courseName
+    - createdAt
+    - id
+    - name
+    - students
+    - updateAt
+    type: object
+  out.Error:
+    properties:
+      errors:
+        additionalProperties: true
+        type: object
+    type: object
+  out.GithubLoginOut:
+    properties:
+      redirectUrl:
+        type: string
+    required:
+    - redirectUrl
+    type: object
+  out.GroupOut:
+    properties:
+      courseCode:
+        type: string
+      courseColour:
+        type: string
+      courseName:
+        type: string
+      createdAt:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      students:
+        items:
+          $ref: '#/definitions/out.StudentOut'
+        type: array
+      updateAt:
+        type: string
+    required:
+    - courseCode
+    - courseColour
+    - courseName
+    - createdAt
+    - id
+    - name
+    - students
+    - updateAt
+    type: object
+  out.GroupRunOut:
+    properties:
+      createdAt:
+        type: string
+      id:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - createdAt
+    - id
+    - updatedAt
+    type: object
+  out.OutUserRole:
+    enum:
+    - student
+    - admin
+    type: string
+    x-enum-varnames:
+    - RoleStudent
+    - RoleTeacher
+  out.PaginationOut:
+    properties:
+      content: {}
+      currentPage:
+        type: integer
+      limit:
+        type: integer
+      offset:
+        type: integer
+      totalCount:
+        type: integer
+      totalPages:
+        type: integer
+    required:
+    - content
+    - currentPage
+    - limit
+    - offset
+    - totalCount
+    - totalPages
+    type: object
+  out.QuesitonOutType:
+    enum:
+    - extraversion
+    - agreeableness
+    - conscientious
+    - neuroticism
+    - openness
+    type: string
+    x-enum-varnames:
+    - QuestionTypeExtraversion
+    - QuesitonOutTypeAgreeableness
+    - QuesitonOutTypeConscientious
+    - QuesitonOutTypeNeuroticism
+    - QuesitonOutTypeOpenness
+  out.QuestioneItemOut:
+    properties:
+      answer_id:
+        type: string
+      answer_value:
+        type: integer
+      question:
+        type: string
+      question_id:
+        type: string
+      question_type:
+        $ref: '#/definitions/out.QuesitonOutType'
+    required:
+    - answer_id
+    - question
+    - question_id
+    - question_type
+    type: object
+  out.QuestionerCompletionStats:
+    properties:
+      completed:
+        type: integer
+      percent:
+        type: integer
+      totalCount:
+        type: integer
+    required:
+    - completed
+    - percent
+    - totalCount
+    type: object
+  out.QuestionerOut:
+    properties:
+      description:
+        type: string
+      questions:
+        items:
+          $ref: '#/definitions/out.QuestioneItemOut'
+        type: array
+      title:
+        type: string
+    required:
+    - description
+    - questions
+    - title
+    type: object
+  out.QuestionerStatus:
+    properties:
+      finished_bfi_questioner:
+        type: boolean
+    required:
+    - finished_bfi_questioner
+    type: object
+  out.StudentOut:
+    properties:
+      agreeableness:
+        type: number
+      completedQuestioner:
+        type: boolean
+      completedQuestionerAt:
+        type: string
+      concientiousness:
+        type: number
+      createdAt:
+        type: string
+      extraversion:
+        type: number
+      githubUsername:
+        type: string
+      id:
+        type: string
+      neuroticism:
+        type: number
+      openness:
+        type: number
+      univeresityId:
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - completedQuestioner
+    - createdAt
+    - githubUsername
+    - id
+    - updatedAt
+    type: object
+  out.SubmitQuestionsOut:
+    properties:
+      success:
+        type: boolean
+      unresolved_questions:
+        items:
+          $ref: '#/definitions/out.QuestioneItemOut'
+        type: array
+    required:
+    - success
+    - unresolved_questions
+    type: object
+  out.WhoAmIOut:
+    properties:
+      finished_bfi:
+        type: boolean
+      github_username:
+        type: string
+      id:
+        type: string
+      role:
+        $ref: '#/definitions/out.OutUserRole'
+    required:
+    - finished_bfi
+    - github_username
+    - id
+    - role
+    type: object
+info:
+  contact: {}
+  description: Team tuner API documentation
+  title: TT API
+  version: "1.0"
+paths:
+  /answer:
+    get:
+      description: 'Get all answers: Get all answers for the current user, based on
+        the JWT'
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/out.QuestioneItemOut'
+            type: array
+      summary: Get all answers
+      tags:
+      - answer
+  /answer/bfi-report:
+    get:
+      description: Get BFI report
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.BfiReportOut'
+      summary: Get BFI report
+      tags:
+      - answer
+  /answer/questioner-status:
+    get:
+      description: 'Get questioner status: Get the status of the questioner for the
+        current user, based on the JWT'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.QuestionerStatus'
+      summary: Get questioner status
+      tags:
+      - answer
+  /auth/logout:
+    post:
+      description: 'Logout the current user: Clears the JWT cookie'
+      responses:
+        "200":
+          description: OK
+      summary: Logout
+      tags:
+      - auth
+  /auth/whoami:
+    get:
+      description: 'Get who am I: Information about the current user'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.WhoAmIOut'
+      summary: Get who am I
+      tags:
+      - auth
+  /course:
+    get:
+      description: Get courses
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/out.CourseOut'
+            type: array
+      summary: Get courses
+      tags:
+      - courses
+    post:
+      description: Create course
+      parameters:
+      - description: Create course body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/in.CreateCourseBody'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/out.CreatedCourseOut'
+      summary: Create course
+      tags:
+      - courses
+  /course/{courseId}/group-runs:
+    get:
+      description: Get courses group runs
+      operationId: get-courses-group-runs
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/out.GroupRunOut'
+            type: array
+      summary: Get courses group runs
+      tags:
+      - courses
+  /course/{courseId}/stats/bf-box-plot:
+    get:
+      description: Get a big five box plot for a course
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.BigFiveBoxPlot'
+      summary: Get a big five box plot for a course
+      tags:
+      - courses
+  /course/{courseId}/stats/daily-activity:
+    get:
+      description: Get a daily number of solved questioners for a course
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      - in: query
+        name: endTime
+        type: string
+      - in: query
+        name: startTime
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.DailyActivity'
+      summary: Get a daily number of solved questioners for a course
+      tags:
+      - courses
+  /course/{courseId}/stats/questioner-stats:
+    get:
+      description: Get a questioner completion stats for a course
+      parameters:
+      - description: Course ID
+        in: path
+        name: courseId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.QuestionerCompletionStats'
+      summary: Get a questioner completion stats for a course
+      tags:
+      - courses
+  /group:
+    get:
+      description: Get groups
+      operationId: get-groups-by-group-run
+      parameters:
+      - in: query
+        name: groupRun
+        type: string
+      responses:
+        "200":
+          description: Groups filtered by query
+          schema:
+            items:
+              $ref: '#/definitions/out.GroupOut'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/out.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/out.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/out.Error'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/out.Error'
+      summary: Get groups
+      tags:
+      - groups
+  /group/{id}:
+    get:
+      description: 'Get group by id: their students and stats (bfi scores)'
+      operationId: get-group-by-id
+      parameters:
+      - description: Group run id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.DetailedGroupOut'
+      summary: 'Get group by id: their students and stats'
+      tags:
+      - groups
+  /group/download/{groupRunId}:
+    get:
+      description: Download groups as CSV
+      operationId: download-groups-csv
+      parameters:
+      - description: Group run id
+        in: path
+        name: groupRunId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/out.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/out.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/out.Error'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/out.Error'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/out.Error'
+      summary: Download groups as CSV
+      tags:
+      - groups
+  /group/form:
+    post:
+      description: 'Create groups for a course. Runs an algorithm to assign students
+        to groups. After the algorithm finished the following are created: A group
+        run and groups with students asiigned to them'
+      operationId: create-groups
+      parameters:
+      - description: Create groups request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/in.PostFormGroupsIn'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/out.Error'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/out.Error'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/out.Error'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/out.Error'
+      summary: Create group
+      tags:
+      - groups
+  /login/github:
+    post:
+      description: Github login
+      parameters:
+      - description: Github login body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/in.GithubLoginIn'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.GithubLoginOut'
+      summary: Github login
+      tags:
+      - login
+  /question:
+    get:
+      description: Get questions
+      parameters:
+      - enum:
+        - extroversion
+        - agreeableness
+        - conscientiousness
+        - neuroticism
+        - openness
+        in: query
+        name: typeOfQuestion
+        required: true
+        type: string
+        x-enum-varnames:
+        - QuestionTypesExtroversion
+        - QuestionTypesAgreeableness
+        - QuestionTypesConscientiousness
+        - QuestionTypesNeuroticism
+        - QuestionTypesOpenness
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.QuestionerOut'
+      summary: Get questions
+      tags:
+      - questions
+  /question/answer:
+    post:
+      description: Post questions answer
+      parameters:
+      - description: Post questions answer body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/in.PostQuestionAnswerIn'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.QuestionerOut'
+      summary: Post questions answer
+      tags:
+      - questions
+  /question/submit:
+    post:
+      description: Submit questions. If all questions are answered, the BFI report
+        will be geneareted. Else the user gets back the list of unanswered questions.
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/out.SubmitQuestionsOut'
+      summary: Submit questions
+      tags:
+      - questions
+  /student:
+    get:
+      description: Get students
+      parameters:
+      - in: query
+        name: completedQuestioner
+        type: boolean
+      - in: query
+        name: courseId
+        type: string
+      - in: query
+        name: page
+        type: integer
+      - in: query
+        name: pageSize
+        type: integer
+      - enum:
+        - openness
+        - conscientious
+        - extraversion
+        - agreeableness
+        - neuroticism
+        in: query
+        name: sortField
+        type: string
+        x-enum-varnames:
+        - StudentSortFieldOpenness
+        - StudentSortFieldConscientious
+        - StudentSortFieldExtraversion
+        - StudentSortFieldAgreeableness
+        - StudentSortFieldNeuroticism
+      - enum:
+        - ASC
+        - DESC
+        in: query
+        name: sortOrder
+        type: string
+        x-enum-varnames:
+        - SortOrdeerASC
+        - SortOrderDESC
+      responses:
+        "200":
+          description: Students filtered by query
+          schema:
+            allOf:
+            - $ref: '#/definitions/out.PaginationOut'
+            - properties:
+                content:
+                  items:
+                    $ref: '#/definitions/out.StudentOut'
+                  type: array
+              type: object
+      summary: Get students
+      tags:
+      - students
+produces:
+- application/json
+schemes:
+- http
+- https
+swagger: "2.0"

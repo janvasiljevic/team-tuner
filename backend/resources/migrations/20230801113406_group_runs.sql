@@ -1,0 +1,6 @@
+-- Modify "courses" table
+ALTER TABLE "courses" DROP CONSTRAINT "courses_users_created_courses", ALTER COLUMN "user_created_courses" SET NOT NULL, ADD CONSTRAINT "courses_users_created_courses" FOREIGN KEY ("user_created_courses") REFERENCES "users" ("oid") ON UPDATE NO ACTION ON DELETE NO ACTION;
+-- Create "group_runs" table
+CREATE TABLE "group_runs" ("oid" uuid NOT NULL, "created_at" timestamptz NOT NULL, "updated_at" timestamptz NOT NULL, "group_size" jsonb NOT NULL, "best_score_history" jsonb NOT NULL, "candidate_score_history" jsonb NOT NULL, "course_group_runs" uuid NOT NULL, "group_run_created_by" uuid NOT NULL, PRIMARY KEY ("oid"), CONSTRAINT "group_runs_courses_group_runs" FOREIGN KEY ("course_group_runs") REFERENCES "courses" ("oid") ON UPDATE NO ACTION ON DELETE NO ACTION, CONSTRAINT "group_runs_users_created_by" FOREIGN KEY ("group_run_created_by") REFERENCES "users" ("oid") ON UPDATE NO ACTION ON DELETE NO ACTION);
+-- Modify "groups" table
+ALTER TABLE "groups" DROP COLUMN "group_created_by", ADD COLUMN "group_run_groups" uuid NOT NULL, ADD CONSTRAINT "groups_group_runs_groups" FOREIGN KEY ("group_run_groups") REFERENCES "group_runs" ("oid") ON UPDATE NO ACTION ON DELETE NO ACTION;
