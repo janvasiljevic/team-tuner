@@ -92,5 +92,5 @@ Quick overview of the project structure for both the backend and frontend.
 ![](docs/student-report.png)
 
 ![](docs/admin-dashboard.png)
-![](docs/student-distribution.png)
-![](docs/groups.png)
+![](docs/form.png)
+![](docs/results.png)
